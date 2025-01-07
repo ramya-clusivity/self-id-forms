@@ -91,7 +91,7 @@ jobs:
             --region=europe-west2 \
             --runtime=python310 \
             --trigger-http \
-            --entry-point=workforce_metrics \
+            --entry-point=self_id_forms \
             --set-env-vars PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},DATASET_ID=Self_id_data,TABLE_ID=${{ env.DEPLOY_ENV_UPPER }}_Data_for_Overview,SELF_IDS_LOOKER_STUDIO=${{ env.DEPLOY_ENV_UPPER }}_Self_ids_for_looker_studio \
             --source=./cloud_functions \
             --max-instances=10
