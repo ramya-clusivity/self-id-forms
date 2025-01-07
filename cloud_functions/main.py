@@ -67,15 +67,15 @@ def self_id_forms(request):
 
 
 
-# Local testing setup
-if __name__ == "__main__":
-    app = Flask(__name__)
+# # Local testing setup
+# if __name__ == "__main__":
+#     app = Flask(__name__)
 
-    @app.route('/campaign/download_forms', methods=['GET'])
-    def test_route():
-        with app.test_request_context(
-            path=request.path, method=request.method, query_string=request.query_string
-        ):
-            return self_id_forms(request)
+#     @app.route('/campaign/download_forms', methods=['GET'])
+#     def test_route():
+#         with app.test_request_context(
+#             path=request.path, method=request.method, query_string=request.query_string
+#         ):
+#             return self_id_forms(request)
 
-    app.run(debug=True, port=8080)
+#     app.run(debug=True, port=8080)
