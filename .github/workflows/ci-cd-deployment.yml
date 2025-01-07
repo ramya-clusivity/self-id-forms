@@ -92,6 +92,6 @@ jobs:
             --runtime=python310 \
             --trigger-http \
             --entry-point=self_id_forms \
-            --set-env-vars PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},DATASET_ID=Self_id_data,TABLE_ID=${{ env.DEPLOY_ENV_UPPER }}_Data_for_Overview,SELF_IDS_LOOKER_STUDIO=${{ env.DEPLOY_ENV_UPPER }}_Self_ids_for_looker_studio \
+            --set-env-vars PROJECT_ID=${{ secrets.GCP_PROJECT_ID }},DATASET_ID=Self_id_data,RESPONDENT_TABLE=${{ env.DEPLOY_ENV_UPPER }}_Respondent_data_from_client \
             --source=./cloud_functions \
             --max-instances=10

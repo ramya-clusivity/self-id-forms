@@ -49,18 +49,20 @@ class Self_ID_FORMS(CreateClientSession):
             "query_preview_enabled": "true"  # Corrected label
             })
             job_config.use_query_cache = True
-            job_config.maximum_bytes_billed = 1**10  # 1 GB limit
+            job_config.maximum_bytes_billed = 10**10  # 10 GB limit
             job_config.dry_run = False
 
             query = f"""
             SELECT 
                 *
-            FROM `{DATASET_ID}.{TABLE_ID}`
+            FROM `{DATASET_ID}.{RESPONDENT_TABLE}`
             WHERE Company_id = '{self.company_id}'
             AND Form_id = '{self.form_id}'
             """
             # Query DB
-            query_job = self.client.query(query, job_config=job_config)
+            query_job = self.client.query(query, job_config=job_config, location="europe-west2")
+            logger.info(f"Executed successfully")
+
             self.df = await asyncio.to_thread(query_job.to_dataframe)
 
             logger.info(f"DB data: {len(self.df)}")

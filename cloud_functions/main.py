@@ -73,8 +73,8 @@ def self_id_forms(request):
 
 #     @app.route('/campaign/download_forms', methods=['GET'])
 #     def test_route():
-#         with app.test_request_context(
-#             path=request.path, method=request.method, query_string=request.query_string
+#         with app.test_request_context(path=request.path, method=request.method, query_string=
+#         request.query_string.decode() if isinstance(request.query_string, bytes) else request.query_string
 #         ):
 #             return self_id_forms(request)
 
