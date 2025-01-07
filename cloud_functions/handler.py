@@ -73,6 +73,6 @@ class Self_ID_FORMS(CreateClientSession):
             return csv_buffer.getvalue()
 
         except Exception as err:
-            logger.error()
+            logger.error(f"Error: {err}")
 
         return
