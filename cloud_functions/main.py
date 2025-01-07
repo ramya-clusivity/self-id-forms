@@ -9,7 +9,7 @@ __version__ = "0.0.1"
 __date__    = "20 November 2024"
 __all__     = "get"
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify,Response
 import functions_framework
 from logger import logger
 import asyncio
@@ -20,7 +20,7 @@ from handler import *
 
 
 @functions_framework.http
-def self_id_forms(request):
+async def self_id_forms(request):
     """Handles the HTTP GET request and returns a JSON response."""
     path = request.path
 
@@ -33,18 +33,31 @@ def self_id_forms(request):
         
         if path.endswith('/campaign/download_forms'):
             logger.info(f"GET: {path}")
+            try:
+                extractor = Self_ID_FORMS(request)
+                csv_content = await extractor.fetch_data()
 
-            # fetch company_id form_id from request and extract data from BigQuery
-            company_id = request.args.get('company_id')
-            form_id = request.args.get('form_id')
-                     
-            logger.info(f"company_id: {company_id}")
-            logger.info(f"form_id: {form_id}")
+                if not csv_content:
+                    return {"message": "No data found or error occurred"}, 500
+
+                # Return the CSV as a downloadable file
+                return Response(
+                    csv_content,
+                    mimetype='text/csv',
+                    headers={
+                        "Content-Disposition": f"attachment;filename=data_{extractor.company_id}_{extractor.form_id}.csv"
+                    }
+                )
+            
+            except Exception as e:
+                logger.error(f"Error in export_csv endpoint: {e}")
+                return {"message": "Internal server error"}, 500
+
 
             return 
         
     if request.method == 'POST':
-        ...
+        return jsonify(error="Route not found"), 404
     
     logger.info(f"GET No route: {path}")
     return jsonify(error="Route not found"), 404
